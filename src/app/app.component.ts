@@ -28,35 +28,56 @@ export class AppComponent {
   }
 
   archiveBook(value: Book) {
-    value.status = {
-      id: 1,
-      name: 'В архиве'
-    };
-    this.store.dispatch(new PostActions.UpadteBook(value));
+    this.store.dispatch(new PostActions.UpadteBook(
+      this.changeStatus(value, Status.ARCHIVE)));
   }
 
   readBook(value: Book) {
-    value.status = {
-      id: 2,
-      name: 'Прочитанные'
-    };
-    this.store.dispatch(new PostActions.UpadteBook(value));
+    this.store.dispatch(new PostActions.UpadteBook(
+      this.changeStatus(value, Status.READ)
+    ));
   }
 
   favoriteBook(value: Book) {
-    value.status = {
-      id: 3,
-      name: 'Избранное'
-    };
-    this.store.dispatch(new PostActions.UpadteBook(value));
+    this.store.dispatch(new PostActions.UpadteBook(
+      this.changeStatus(value, Status.FAVORITE)));
   }
 
   noReadBook(value: Book) {
-    value.status = {
-      id: 0,
-      name: 'Не прочитнное'
-    };
-    this.store.dispatch(new PostActions.UpadteBook(value));
+    this.store.dispatch(new PostActions.UpadteBook(
+      this.changeStatus(value, Status.NOREAD)));
+  }
+
+  changeStatus(book: Book, id: number): Book {
+    const newBook = Object.assign({}, book);
+    switch (id) {
+      case 0:
+        newBook.status = {
+          id: 0,
+          name: 'Не прочитнное'
+        };
+        return newBook;
+      case 1:
+        newBook.status = {
+          id: 1,
+          name: 'В архиве'
+        };
+        return newBook;
+      case 2:
+        newBook.status = {
+          id: 2,
+          name: 'Прочитанные'
+        };
+        return newBook;
+      case 3:
+        newBook.status = {
+          id: 3,
+          name: 'Избранное'
+        };
+        return newBook;
+      default:
+        return newBook;
+    }
   }
 
   onlyArchive() {

@@ -1,0 +1,36 @@
+<div class="container">
+  <h2>Here are some links to help you start: </h2>
+  <div class="row">
+    <button (click)="getAll()">Все книги {{(all$|async)?.length}}</button>
+    <button (click)="onlyArchive()">В архиве {{(ArchiveCount$|async)?.length}}</button>
+    <button (click)="onlyRead()">Прочтено {{(ReadCount$| async)?.length}}</button>
+    <button (click)="onlyNoRead()"> Не прочитано {{(NoReadCount$|async)?.length}}</button>
+    <button (click)="onlyFavorite()"> В изранное {{(FavoriteCount$|async)?.length}}</button>
+  </div>
+
+
+  <div class="row">
+    <ng-container *ngIf="BooksView$|async as p">
+      <div class="item" *ngFor="let item of p">
+        <h2> Название книги: {{item.title}}</h2>
+        <p> Статус книги: {{item.status.name}}</p>
+        <div class="status">
+          <button style="margin: 8px" (click)="archiveBook(item)">
+            В архив
+          </button>
+          <button style="margin: 8px" (click)="readBook(item)" *ngIf="item.status.id !== 2 else noRead">
+            Прочтено
+          </button>
+          <ng-template #noRead>
+            <button style="margin: 8px" (click)="noReadBook(item)">
+              Не прочитано
+            </button>
+          </ng-template>
+          <button style="margin: 8px" (click)="favoriteBook(item)">
+            В изранное
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

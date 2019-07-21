@@ -18,14 +18,13 @@
           <button style="margin: 8px" (click)="archiveBook(item)">
             В архив
           </button>
-          <button style="margin: 8px" (click)="readBook(item)" *ngIf="item.status.id !== 2 else noRead">
+          <button style="margin: 8px" (click)="readBook(item)">
             Прочтено
           </button>
-          <ng-template #noRead>
-            <button style="margin: 8px" (click)="noReadBook(item)">
-              Не прочитано
-            </button>
-          </ng-template>
+          <button style="margin: 8px" (click)="noReadBook(item)">
+            Не прочитано
+          </button>
+
           <button style="margin: 8px" (click)="favoriteBook(item)">
             В изранное
           </button>

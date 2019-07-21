@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {Book} from '../models/book.model';
 
 export enum Status {
-  NOREAD = 0,
+  NO_READ = 0,
   ARCHIVE = 1,
   READ = 2,
   FAVORITE = 3

@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   ReadCount$: Observable<Book[]> = this.store.pipe(select(selectBook(Status.READ)));
   ArchiveCount$: Observable<Book[]> = this.store.pipe(select(selectBook(Status.ARCHIVE)));
   FavoriteCount$: Observable<Book[]> = this.store.pipe(select(selectBook(Status.FAVORITE)));
-  NoReadCount$: Observable<Book[]> = this.store.pipe(select(selectBook(Status.NOREAD)));
+  NoReadCount$: Observable<Book[]> = this.store.pipe(select(selectBook(Status.NO_READ)));
   all$: Observable<Book[]> = this.store.select('books');
 
   static changeStatus(book: Book, id: number): Book {
@@ -63,25 +63,25 @@ export class AppComponent implements OnInit {
 
 
   archiveBook(value: Book) {
-    this.store.dispatch(new PostActions.UpadteBook(
+    this.store.dispatch(new PostActions.UpdateBook(
       AppComponent.changeStatus(value, Status.ARCHIVE)));
   }
 
 
   readBook(value: Book) {
-    this.store.dispatch(new PostActions.UpadteBook(
+    this.store.dispatch(new PostActions.UpdateBook(
       AppComponent.changeStatus(value, Status.READ)
     ));
   }
 
   favoriteBook(value: Book) {
-    this.store.dispatch(new PostActions.UpadteBook(
+    this.store.dispatch(new PostActions.UpdateBook(
       AppComponent.changeStatus(value, Status.FAVORITE)));
   }
 
   noReadBook(value: Book) {
-    this.store.dispatch(new PostActions.UpadteBook(
-      AppComponent.changeStatus(value, Status.NOREAD)));
+    this.store.dispatch(new PostActions.UpdateBook(
+      AppComponent.changeStatus(value, Status.NO_READ)));
   }
 
   onlyArchive() {
@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
   }
 
   onlyNoRead() {
-    this.BooksView$ = this.store.pipe(select(selectBook(Status.NOREAD)));
+    this.BooksView$ = this.store.pipe(select(selectBook(Status.NO_READ)));
   }
 
   onlyFavorite() {

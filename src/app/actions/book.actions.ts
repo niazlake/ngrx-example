@@ -8,7 +8,7 @@ export const GET = '[Get] GET_BOOK';
 export const GET_SUCCESS = '[Get] GET_BOOK_SUSSES';
 export const GET_FAIL = '[Get] GET_BOOK_FAIL';
 
-export class UpadteBook implements Action {
+export class UpdateBook implements Action {
 
   readonly type = UPDATE;
 
@@ -52,7 +52,7 @@ export class GetBooksFail implements Action {
 }
 
 export type All
-  = UpadteBook
+  = UpdateBook
   | UpdateBookSuccess
   | GetBooksFail
   | GetBookSuccess;

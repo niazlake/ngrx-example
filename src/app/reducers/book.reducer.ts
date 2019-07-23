@@ -19,7 +19,7 @@ const updateStatus = (state: Book[], newBook: Book, statusIn: StatusType): Book[
 
 export function bookReducer(state: Book[] = defaultState, action: Action) {
   switch (action.type) {
-    case PostActions.UPDATE:
+    case PostActions.UPDATE_STATUS_SUCCESS:
       return updateStatus(state, action.payload, action.status);
     case PostActions.GET_SUCCESS:
       return [...action.payload];

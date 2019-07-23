@@ -18,6 +18,7 @@ interface ActionBook {
 export class BookEffect {
   constructor(private actions$: Actions, private api: ApiService) {
   }
+
   @Effect()
   loadBooks$ = this.actions$.pipe(
     ofType(bookActions.GET),
@@ -27,16 +28,16 @@ export class BookEffect {
           catchError(error => of(new bookActions.GetBooksFail(error))));
       }
     ));
-    @Effect()
-    updateBooks$ = this.actions$.pipe(
-      ofType(bookActions.UPDATE),
-      switchMap((action: ActionBook) => {
-          return this.api.updateBook(action.payload.id, action.payload).pipe(
-            map((book: Book) => new bookActions.UpdateBookSuccess(book)),
-            catchError(err => of(new bookActions.UpdateBookFail(err)))
-          );
-        }
-      )
-    );
+  @Effect()
+  updateBooks$ = this.actions$.pipe(
+    ofType(bookActions.UPDATE_STATUS),
+    switchMap((action: ActionBook) => {
+        return this.api.updateBook(action.payload.id, action.payload).pipe(
+          map((book: Book) => new bookActions.UpdateBookStatusSuccess(book, action.status)),
+          catchError(err => of(new bookActions.UpdateBookStatusFail(err)))
+        );
+      }
+    )
+  );
 
 }

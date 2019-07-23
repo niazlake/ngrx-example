@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
 
 
   markAsArchive(book: Book) {
-    this.store.dispatch(new PostActions.UpdateBook(book, StatusType.ARCHIVE));
+    this.store.dispatch(new PostActions.UpdateBookStatus(book, StatusType.ARCHIVE));
   }
 
 
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   }
 
   markAsfavorite(book: Book) {
-    this.store.dispatch(new PostActions.UpdateBook(book, StatusType.FAVORITE));
+    this.store.dispatch(new PostActions.UpdateBookStatus(book, StatusType.FAVORITE));
   }
 
   markAsUnread(book: Book) {

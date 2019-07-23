@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {Book, StatusType} from './models/book.model';
 import * as PostActions from './actions/book.actions';
-
-export interface AppState {
-  books: Book[];
-}
+import {AppState} from './store/app.store';
+import {selectBook} from './selectors/status.selector';
 
 
 @Component({
@@ -27,27 +25,32 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new PostActions.UpdateBookStatus(book, StatusType.ARCHIVE));
   }
 
-
   markAsRead(book: Book) {
+    this.store.dispatch(new PostActions.UpdateBookRead(book, true));
   }
 
-  markAsfavorite(book: Book) {
+  markAsFavorite(book: Book) {
     this.store.dispatch(new PostActions.UpdateBookStatus(book, StatusType.FAVORITE));
   }
 
   markAsUnread(book: Book) {
+    this.store.dispatch(new PostActions.UpdateBookRead(book, false));
   }
 
   onlyArchive() {
+    this.BooksView$ = this.store.pipe(select(selectBook(StatusType.ARCHIVE, true)));
   }
 
   onlyRead() {
+    this.BooksView$ = this.store.pipe(select(selectBook(StatusType.FAVORITE, true)));
   }
 
   onlyNoRead() {
+    this.BooksView$ = this.store.pipe(select(selectBook(StatusType.ARCHIVE, false)));
   }
 
   onlyFavorite() {
+    this.BooksView$ = this.store.pipe(select(selectBook(StatusType.FAVORITE, true)));
   }
 
   getAll() {

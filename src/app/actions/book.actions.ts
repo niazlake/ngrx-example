@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Book} from '../models/book.model';
+import {Book, StatusType} from '../models/book.model';
 
 export const UPDATE = '[Put] UPDATE_BOOK';
 export const UPDATE_SUCCESS = '[Put] UPDATE_BOOK_SUCCESS';
@@ -12,7 +12,7 @@ export class UpdateBook implements Action {
 
   readonly type = UPDATE;
 
-  constructor(public payload: any) {
+  constructor(public payload: Book, public status: StatusType) {
   }
 
 }

@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {select, Store} from '@ngrx/store';
-import {Book} from './models/book.model';
+import {Store} from '@ngrx/store';
+import {Book, StatusType} from './models/book.model';
 import * as PostActions from './actions/book.actions';
-import {selectBook} from './selectors/status.selector';
-import {Status} from './services/api.service';
 
 export interface AppState {
   books: Book[];
@@ -23,81 +21,33 @@ export class AppComponent implements OnInit {
   }
 
   BooksView$: Observable<Book[]> = this.store.select('books');
-  ReadCount$: Observable<Book[]> = this.store.pipe(select(selectBook(Status.READ)));
-  ArchiveCount$: Observable<Book[]> = this.store.pipe(select(selectBook(Status.ARCHIVE)));
-  FavoriteCount$: Observable<Book[]> = this.store.pipe(select(selectBook(Status.FAVORITE)));
-  NoReadCount$: Observable<Book[]> = this.store.pipe(select(selectBook(Status.NO_READ)));
-  all$: Observable<Book[]> = this.store.select('books');
 
-  static changeStatus(book: Book, id: number): Book {
-    const newBook = Object.assign({}, book);
-    switch (id) {
-      case 0:
-        newBook.status = {
-          id: 0,
-          name: 'Не прочитнное'
-        };
-        return newBook;
-      case 1:
-        newBook.status = {
-          id: 1,
-          name: 'В архиве'
-        };
-        return newBook;
-      case 2:
-        newBook.status = {
-          id: 2,
-          name: 'Прочитанные'
-        };
-        return newBook;
-      case 3:
-        newBook.status = {
-          id: 3,
-          name: 'Избранное'
-        };
-        return newBook;
-      default:
-        return newBook;
-    }
+
+  markAsArchive(book: Book) {
+    this.store.dispatch(new PostActions.UpdateBook(book, StatusType.ARCHIVE));
   }
 
 
-  archiveBook(value: Book) {
-    this.store.dispatch(new PostActions.UpdateBook(
-      AppComponent.changeStatus(value, Status.ARCHIVE)));
+  markAsRead(book: Book) {
   }
 
-
-  readBook(value: Book) {
-    this.store.dispatch(new PostActions.UpdateBook(
-      AppComponent.changeStatus(value, Status.READ)
-    ));
+  markAsfavorite(book: Book) {
+    this.store.dispatch(new PostActions.UpdateBook(book, StatusType.FAVORITE));
   }
 
-  favoriteBook(value: Book) {
-    this.store.dispatch(new PostActions.UpdateBook(
-      AppComponent.changeStatus(value, Status.FAVORITE)));
-  }
-
-  noReadBook(value: Book) {
-    this.store.dispatch(new PostActions.UpdateBook(
-      AppComponent.changeStatus(value, Status.NO_READ)));
+  markAsUnread(book: Book) {
   }
 
   onlyArchive() {
-    this.BooksView$ = this.store.pipe(select(selectBook(Status.ARCHIVE)));
   }
 
   onlyRead() {
-    this.BooksView$ = this.store.pipe(select(selectBook(Status.READ)));
   }
 
   onlyNoRead() {
-    this.BooksView$ = this.store.pipe(select(selectBook(Status.NO_READ)));
   }
 
   onlyFavorite() {
-    this.BooksView$ = this.store.pipe(select(selectBook(Status.FAVORITE)));
   }
 
   getAll() {

@@ -1,10 +1,11 @@
 export interface Book {
   title: string;
+  read: boolean;
   status: StatusType;
   id: number;
 }
 
-export interface StatusType {
-  id: number;
-  name: string;
+export enum StatusType {
+  ARCHIVE = 'Archive',
+  FAVORITE = 'Favorite'
 }

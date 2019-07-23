@@ -1,31 +1,31 @@
 <div class="container">
   <h2>Library</h2>
   <div class="row">
-    <button (click)="getAll()">Все книги {{(all$|async)?.length}}</button>
-    <button (click)="onlyArchive()">В архиве {{(ArchiveCount$|async)?.length}}</button>
-    <button (click)="onlyRead()">Прочтено {{(ReadCount$| async)?.length}}</button>
-    <button (click)="onlyNoRead()"> Не прочитано {{(NoReadCount$|async)?.length}}</button>
-    <button (click)="onlyFavorite()"> В изранное {{(FavoriteCount$|async)?.length}}</button>
+    <button (click)="getAll()">Все книги </button>
+    <button (click)="onlyArchive()">В архиве</button>
+    <button (click)="onlyRead()">Прочтено </button>
+    <button (click)="onlyNoRead()"> Не прочитано </button>
+    <button (click)="onlyFavorite()"> В изранное </button>
   </div>
 
 
   <div class="row">
-    <ng-container *ngIf="BooksView$|async as p">
-      <div class="item" *ngFor="let item of p">
-        <h2> Название книги: {{item.title}}</h2>
-        <p> Статус книги: {{item.status.name}}</p>
+    <ng-container *ngIf="BooksView$|async as books">
+      <div class="item" *ngFor="let book of books">
+        <h2> Название книги: {{book.title}}</h2>
+        <p> Статус книги: {{book.read}}</p>
         <div class="status">
-          <button style="margin: 8px" (click)="archiveBook(item)">
+          <button style="margin: 8px" (click)="markAsArchive(book)">
             В архив
           </button>
-          <button style="margin: 8px" (click)="readBook(item)">
+          <button style="margin: 8px" (click)="markAsRead(book)">
             Прочтено
           </button>
-          <button style="margin: 8px" (click)="noReadBook(item)">
+          <button style="margin: 8px" (click)="markAsUnread(book)">
             Не прочитано
           </button>
 
-          <button style="margin: 8px" (click)="favoriteBook(item)">
+          <button style="margin: 8px" (click)="markAsfavorite(book)">
             В изранное
           </button>
         </div>

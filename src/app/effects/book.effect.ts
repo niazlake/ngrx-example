@@ -6,10 +6,11 @@ import * as bookActions from '../actions/book.actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {ApiService} from '../services/api.service';
 import {of} from 'rxjs';
-import {Book} from '../models/book.model';
+import {Book, StatusType} from '../models/book.model';
 
 interface ActionBook {
   payload: Book;
+  status: StatusType;
   type: string;
 }
 
@@ -17,7 +18,6 @@ interface ActionBook {
 export class BookEffect {
   constructor(private actions$: Actions, private api: ApiService) {
   }
-
   @Effect()
   loadBooks$ = this.actions$.pipe(
     ofType(bookActions.GET),
@@ -27,17 +27,16 @@ export class BookEffect {
           catchError(error => of(new bookActions.GetBooksFail(error))));
       }
     ));
-
-  @Effect()
-  updateBooks$ = this.actions$.pipe(
-    ofType(bookActions.UPDATE),
-    switchMap((action: ActionBook) => {
-        return this.api.updateBook(action.payload.id, action.payload).pipe(
-          map((book: Book) => new bookActions.UpdateBookSuccess(book)),
-          catchError(err => of(new bookActions.UpdateBookFail(err)))
-        );
-      }
-    )
-  );
+    @Effect()
+    updateBooks$ = this.actions$.pipe(
+      ofType(bookActions.UPDATE),
+      switchMap((action: ActionBook) => {
+          return this.api.updateBook(action.payload.id, action.payload).pipe(
+            map((book: Book) => new bookActions.UpdateBookSuccess(book)),
+            catchError(err => of(new bookActions.UpdateBookFail(err)))
+          );
+        }
+      )
+    );
 
 }

@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {select, Store} from '@ngrx/store';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {Store} from '@ngrx/store';
 import {Book, BookFilter, StatusType} from './models/book.model';
 import * as PostActions from './actions/book.actions';
 import {AppState} from './store/app.store';
-import {selectBook} from './selectors/status.selector';
-import {map, tap} from 'rxjs/operators';
 
 
 @Component({
@@ -19,8 +17,9 @@ export class AppComponent implements OnInit {
 
   }
 
-  BooksFilter$: Observable<BookFilter>;
+  BooksFilter$ = new BehaviorSubject<BookFilter>({status: null, read: null});
   BooksView$: Observable<Book[]> = this.store.select('books');
+  Proposals: BookFilter;
 
   markAsArchive(book: Book) {
     this.store.dispatch(new PostActions.UpdateBookStatus(book, StatusType.ARCHIVE));
@@ -39,11 +38,10 @@ export class AppComponent implements OnInit {
   }
 
   onlyArchive() {
-    this.BooksFilter$.pipe(
-      map(value => {
-          return {...value, status: StatusType.ARCHIVE};
-        }
-      )
+    this.BooksFilter$.pipe().subscribe(
+      data => {
+        return {...data, status: StatusType.ARCHIVE};
+      }
     );
   }
 
@@ -59,6 +57,10 @@ export class AppComponent implements OnInit {
 
   getAll() {
     this.BooksView$ = this.store.select('books');
+  }
+
+  updateFilter(statusChange: StatusType | null, isRead: boolean | null) {
+
   }
 
   ngOnInit() {

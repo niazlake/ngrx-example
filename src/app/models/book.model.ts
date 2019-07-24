@@ -12,5 +12,5 @@ export enum StatusType {
 
 export interface BookFilter {
   status: StatusType | null;
-  read: boolean;
+  read: boolean | null;
 }

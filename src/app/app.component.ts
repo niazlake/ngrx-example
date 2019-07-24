@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {Book, StatusType} from './models/book.model';
+import {Book, BookFilter, StatusType} from './models/book.model';
 import * as PostActions from './actions/book.actions';
 import {AppState} from './store/app.store';
 import {selectBook} from './selectors/status.selector';
+import {map, tap} from 'rxjs/operators';
 
 
 @Component({
@@ -18,8 +19,8 @@ export class AppComponent implements OnInit {
 
   }
 
+  BooksFilter$: Observable<BookFilter>;
   BooksView$: Observable<Book[]> = this.store.select('books');
-
 
   markAsArchive(book: Book) {
     this.store.dispatch(new PostActions.UpdateBookStatus(book, StatusType.ARCHIVE));
@@ -38,19 +39,22 @@ export class AppComponent implements OnInit {
   }
 
   onlyArchive() {
-    this.BooksView$ = this.store.pipe(select(selectBook(StatusType.ARCHIVE, true)));
+    this.BooksFilter$.pipe(
+      map(value => {
+          return {...value, status: StatusType.ARCHIVE};
+        }
+      )
+    );
   }
 
+
   onlyRead() {
-    this.BooksView$ = this.store.pipe(select(selectBook(StatusType.FAVORITE, true)));
   }
 
   onlyNoRead() {
-    this.BooksView$ = this.store.pipe(select(selectBook(StatusType.ARCHIVE, false)));
   }
 
   onlyFavorite() {
-    this.BooksView$ = this.store.pipe(select(selectBook(StatusType.FAVORITE, true)));
   }
 
   getAll() {

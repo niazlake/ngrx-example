@@ -14,11 +14,11 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  getBooks(): Observable<Book[]> {
+  getBooks$(): Observable<Book[]> {
     return this.http.get<Book[]>(this.apiUrl + '/books');
   }
 
-  updateBook(statusId: number, book: Book) {
+  updateBook$(statusId: number, book: Book) {
     return this.http.put(this.apiUrl + '/books/' + statusId, book);
   }
 

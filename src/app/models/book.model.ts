@@ -14,3 +14,15 @@ export interface BookFilter {
   status: StatusType | null;
   read: boolean | null;
 }
+
+export interface BookStatusChange {
+  payload: Book;
+  status: StatusType;
+  type: string;
+}
+
+export interface BookReadChange {
+  payload: Book;
+  isRead: boolean;
+  type: string;
+}

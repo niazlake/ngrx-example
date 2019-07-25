@@ -1,11 +1,11 @@
 <div class="container">
   <h2>Library</h2>
   <div class="row">
-    <button (click)="getAll()">Все книги </button>
+    <button (click)="getAll()">Все книги</button>
     <button (click)="onlyArchive()">В архиве</button>
-    <button (click)="onlyRead()">Прочтено </button>
-    <button (click)="onlyNoRead()"> Не прочитано </button>
-    <button (click)="onlyFavorite()"> В изранное </button>
+    <button (click)="onlyRead()">Прочтено</button>
+    <button (click)="onlyUnRead()"> Не прочитано</button>
+    <button (click)="onlyFavorite()"> В изранное</button>
   </div>
 
 
@@ -16,17 +16,17 @@
         <p>Прочитано : {{book.read}}</p>
         <p> Статус книги: {{book.status}}</p>
         <div class="status">
-          <button style="margin: 8px" (click)="markAsArchive(book)">
+          <button (click)="markAsArchive(book)">
             В архив
           </button>
-          <button style="margin: 8px" (click)="markAsRead(book)">
+          <button (click)="markAsRead(book)">
             Прочтено
           </button>
-          <button style="margin: 8px" (click)="markAsUnread(book)">
+          <button (click)="markAsUnread(book)">
             Не прочитано
           </button>
 
-          <button style="margin: 8px" (click)="markAsFavorite(book)">
+          <button (click)="markAsFavorite(book)">
             В изранное
           </button>
         </div>

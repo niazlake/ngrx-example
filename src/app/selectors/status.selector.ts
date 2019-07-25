@@ -26,12 +26,6 @@ export const selectBook = (statusBook: StatusType | null, isRead: boolean | null
         );
       }
     };
-    return filteredStatus().concat(filteredRead()).reduce(
-      (resultBooks, book, indexOfBook, bookCollection) => {
-        if (bookCollection.indexOf(book) !== indexOfBook) {
-          resultBooks.push(book);
-        }
-        return resultBooks;
-      }, []);
+    return filteredStatus().filter(book => filteredRead().includes(book));
   })
 ;

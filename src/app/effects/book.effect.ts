@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
-
 import {Effect, Actions, ofType} from '@ngrx/effects';
-
 import * as bookActions from '../actions/book.actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {ApiService} from '../services/api.service';
@@ -23,7 +21,8 @@ export class BookEffect {
           map(books => new bookActions.GetBookSuccess(books)),
           catchError(error => of(new bookActions.GetBooksFail(error))));
       }
-    ));
+    )
+  );
 
   @Effect()
   updateBookStatus$ = this.actions$.pipe(
@@ -31,8 +30,7 @@ export class BookEffect {
     switchMap((action: BookStatusChange) => {
         return this.api.updateBook$(action.payload.id, action.payload).pipe(
           map((book: Book) => new bookActions.UpdateBookStatusSuccess(book, action.status)),
-          catchError(err => of(new bookActions.UpdateBookStatusFail(err)))
-        );
+          catchError(err => of(new bookActions.UpdateBookStatusFail(err))));
       }
     )
   );
@@ -43,8 +41,7 @@ export class BookEffect {
     switchMap((action: BookReadChange) => {
         return this.api.updateBook$(action.payload.id, action.payload).pipe(
           map((book: Book) => new bookActions.UpdateBookReadSuccess(book, action.isRead)),
-          catchError(err => of(new bookActions.UpdateBookReadFail(err)))
-        );
+          catchError(err => of(new bookActions.UpdateBookReadFail(err))));
       }
     )
   );

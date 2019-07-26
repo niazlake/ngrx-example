@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {Book, StatusType} from '../models/book.model';
-import {AppState} from '../store/app.store';
+import {BookState} from '../store/app.store';
 
-export const selectBooks = (state: AppState) => state.books;
+export const selectBooks = (state: BookState) => state.books;
 
 export const selectBook = (statusBook: StatusType | null, isRead: boolean | null) => createSelector(
   selectBooks,
@@ -11,8 +11,8 @@ export const selectBook = (statusBook: StatusType | null, isRead: boolean | null
       if (isRead === null) {
         return allBooks;
       } else {
-        return allBooks.filter(data => {
-          return data.read === isRead;
+        return allBooks.filter(book => {
+          return book.read === isRead;
         });
       }
     };
@@ -26,6 +26,6 @@ export const selectBook = (statusBook: StatusType | null, isRead: boolean | null
         );
       }
     };
-    return filteredStatus().filter(book => filteredRead().includes(book));
+    return filteredStatus().filter(bookStatus => filteredRead().includes(bookStatus));
   })
 ;

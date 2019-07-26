@@ -3,7 +3,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Store, select} from '@ngrx/store';
 import {Book, BookFilter, StatusType} from './models/book.model';
 import * as PostActions from './actions/book.actions';
-import {AppState} from './store/app.store';
+import {BookState} from './store/app.store';
 import {selectBook} from './selectors/status.selector';
 
 
@@ -14,7 +14,7 @@ import {selectBook} from './selectors/status.selector';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<BookState>) {
 
   }
 
@@ -40,7 +40,6 @@ export class AppComponent implements OnInit, OnDestroy {
   onlyArchive() {
     this.BooksFilter$.next({...this.BooksFilter$.value, status: StatusType.ARCHIVE});
   }
-
 
   onlyRead() {
     this.BooksFilter$.next({...this.BooksFilter$.value, read: true});

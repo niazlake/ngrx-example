@@ -17,7 +17,7 @@ export interface BookFilter {
 
 export interface BookStatusChange {
   payload: Book;
-  status: StatusType;
+  status: StatusType | null;
   type: string;
 }
 

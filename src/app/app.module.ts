@@ -7,7 +7,7 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {EffectsModule} from '@ngrx/effects';
 import {BookEffect} from './effects/book.effect';
-import {bookReducer} from './reducers/book.reducer';
+import {RootBook} from './store/app.store';
 
 @NgModule({
   declarations: [
@@ -16,9 +16,7 @@ import {bookReducer} from './reducers/book.reducer';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({
-      books: bookReducer,
-    }),
+    StoreModule.forRoot(RootBook),
     EffectsModule.forRoot([BookEffect]),
     FormsModule,
     HttpClientModule

@@ -1,11 +1,11 @@
-.row {
+.books {
   display: flex;
   flex-wrap: wrap;
   margin: 0 16px;
   justify-content: left;
 }
 
-.item {
+.book {
   padding: 50px 40px;
   box-sizing: border-box;
   background-color: darkorange;
@@ -32,7 +32,7 @@ button {
 }
 
 @media screen and (max-width: 920px) {
-  .item {
+  .book {
     width: calc(100% / 12 * 5 - 32px);
   }
 
@@ -40,7 +40,7 @@ button {
 
 
 @media screen and (max-width: 720px) {
-  .item {
+  .book {
     width: calc(100% / 12 * 6 - 32px);
   }
 
@@ -48,8 +48,7 @@ button {
 
 
 @media screen and (max-width: 520px) {
-  .item {
+  .book {
     width: calc(100% - 32px);
   }
-
 }

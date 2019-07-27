@@ -7,15 +7,16 @@
     <button (click)="onlyUnRead()"> Не прочитано</button>
     <button (click)="onlyFavorite()"> В изранное</button>
   </div>
-
-
-  <div class="row">
-    <ng-container *ngIf="Book$|async as books">
-      <div class="item" *ngFor="let book of books">
-        <h2> Название книги: {{book.title}}</h2>
-        <p>Прочитано : {{book.read}}</p>
-        <p> Статус книги: {{book.status}}</p>
-        <div class="status">
+  <div class="books">
+    <ng-container *ngIf="Books$|async as books">
+      <div class="book" *ngFor="let book of books;">
+        <h2 class="book__header"> Название книги: {{book.title}}</h2>
+        <p class="book__isRead  book__read" *ngIf="book.read else unread">Прочитано</p>
+        <ng-template #unread>
+          <p class="book__isRead book__unread ">Не прочитано</p>
+        </ng-template>
+        <p class="book__status"> Статус книги: {{book.status}}</p>
+        <div class="book__button_collection">
           <button (click)="markAsArchive(book)">
             В архив
           </button>
@@ -25,7 +26,6 @@
           <button (click)="markAsUnread(book)">
             Не прочитано
           </button>
-
           <button (click)="markAsFavorite(book)">
             В изранное
           </button>

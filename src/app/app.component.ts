@@ -3,8 +3,8 @@ import {combineLatest, Observable, Subject} from 'rxjs';
 import {Store, select} from '@ngrx/store';
 import {Book, StatusType} from './models/book.model';
 import * as PostActions from './actions/book.actions';
-import {AppState} from './store/app.store';
 import {switchMap} from 'rxjs/operators';
+import {BookState} from './store/app.store';
 import {selectBook} from './selectors/status.selector';
 
 
@@ -15,13 +15,13 @@ import {selectBook} from './selectors/status.selector';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<BookState>) {
 
   }
 
   BookRead$ = new Subject<boolean | null>();
   BookStatus$ = new Subject<StatusType | null>();
-  Book$: Observable<Book[]> = this.store.select('books');
+  Books$: Observable<Book[]> = this.store.select('books');
 
   markAsArchive(book: Book) {
     this.store.dispatch(new PostActions.UpdateBookStatus(book, StatusType.ARCHIVE));
@@ -43,7 +43,6 @@ export class AppComponent implements OnInit {
     this.BookStatus$.next(StatusType.ARCHIVE);
   }
 
-
   onlyRead() {
     this.BookRead$.next(true);
   }
@@ -63,7 +62,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new PostActions.GetBooks());
-    this.Book$ = combineLatest(this.BookRead$, this.BookStatus$).pipe(switchMap(([read, status]) => {
+    this.Books$ = combineLatest(this.BookRead$, this.BookStatus$).pipe(switchMap(([read, status]) => {
       return this.store.pipe(select(selectBook(status, read)));
     }));
   }

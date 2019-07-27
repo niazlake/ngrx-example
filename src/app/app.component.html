@@ -10,7 +10,7 @@
 
 
   <div class="row">
-    <ng-container *ngIf="BooksView$|async as books">
+    <ng-container *ngIf="Book$|async as books">
       <div class="item" *ngFor="let book of books">
         <h2> Название книги: {{book.title}}</h2>
         <p>Прочитано : {{book.read}}</p>

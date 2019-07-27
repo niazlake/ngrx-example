@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {combineLatest, Observable, Subject} from 'rxjs';
 import {Store, select} from '@ngrx/store';
-import {Book, BookFilter, StatusType} from './models/book.model';
+import {Book, StatusType} from './models/book.model';
 import * as PostActions from './actions/book.actions';
 import {AppState} from './store/app.store';
+import {switchMap} from 'rxjs/operators';
 import {selectBook} from './selectors/status.selector';
 
 
@@ -12,14 +13,15 @@ import {selectBook} from './selectors/status.selector';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
 
   constructor(private store: Store<AppState>) {
 
   }
 
-  BooksFilter$ = new BehaviorSubject<BookFilter>({status: null, read: null});
-  BooksView$: Observable<Book[]> = this.store.select('books');
+  BookRead$ = new Subject<boolean | null>();
+  BookStatus$ = new Subject<StatusType | null>();
+  Book$: Observable<Book[]> = this.store.select('books');
 
   markAsArchive(book: Book) {
     this.store.dispatch(new PostActions.UpdateBookStatus(book, StatusType.ARCHIVE));
@@ -38,35 +40,32 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onlyArchive() {
-    this.BooksFilter$.next({...this.BooksFilter$.value, status: StatusType.ARCHIVE});
+    this.BookStatus$.next(StatusType.ARCHIVE);
   }
 
 
   onlyRead() {
-    this.BooksFilter$.next({...this.BooksFilter$.value, read: true});
+    this.BookRead$.next(true);
   }
 
   onlyUnRead() {
-    this.BooksFilter$.next({...this.BooksFilter$.value, read: false});
+    this.BookRead$.next(false);
   }
 
   onlyFavorite() {
-    this.BooksFilter$.next({...this.BooksFilter$.value, status: StatusType.FAVORITE});
+    this.BookStatus$.next(StatusType.FAVORITE);
   }
 
   getAll() {
-    this.BooksFilter$.next({status: null, read: null});
+    this.BookRead$.next(null);
+    this.BookStatus$.next(null);
   }
 
   ngOnInit() {
     this.store.dispatch(new PostActions.GetBooks());
-    this.BooksFilter$.subscribe(data => {
-      this.BooksView$ = this.store.pipe(select(selectBook(data.status, data.read)));
-    });
-  }
-
-  ngOnDestroy() {
-    this.BooksFilter$.unsubscribe();
+    this.Book$ = combineLatest(this.BookRead$, this.BookStatus$).pipe(switchMap(([read, status]) => {
+      return this.store.pipe(select(selectBook(status, read)));
+    }));
   }
 
 }

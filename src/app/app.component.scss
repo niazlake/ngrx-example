@@ -5,7 +5,7 @@
   justify-content: left;
 }
 
-.book {
+.book__item {
   padding: 50px 40px;
   box-sizing: border-box;
   background-color: darkorange;
@@ -21,6 +21,14 @@
 
 .status {
   display: inline-block;
+}
+
+.book__read {
+  color: #000;
+}
+
+.book_unread {
+  color: red;
 }
 
 button {

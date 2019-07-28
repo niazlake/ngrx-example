@@ -27,5 +27,16 @@ export const selectBook = (statusBook: StatusType | null, isRead: boolean | null
       }
     };
     return filteredStatus().filter(bookStatus => filteredRead().includes(bookStatus));
-  })
-;
+  });
+
+export const selectCount = () => createSelector(
+  selectBooks,
+  (allBooks: Book[]) => {
+    return {
+      archive: allBooks.filter(book => book.status === StatusType.ARCHIVE).length,
+      favorite: allBooks.filter(book => book.status === StatusType.FAVORITE).length,
+      read: allBooks.filter(book => book.read === true).length,
+      unread: allBooks.filter(book => book.read === false).length
+    };
+  }
+);

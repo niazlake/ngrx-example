@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {combineLatest, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {Store, select} from '@ngrx/store';
-import {Book, StatusType} from './models/book.model';
+import {Book, BookCount, StatusType} from './models/book.model';
 import * as PostActions from './actions/book.actions';
 import {switchMap} from 'rxjs/operators';
 import {BookState} from './store/app.store';
-import {selectBook} from './selectors/status.selector';
+import {selectBook, selectCount} from './selectors/status.selector';
 
 
 @Component({
@@ -19,9 +19,10 @@ export class AppComponent implements OnInit {
 
   }
 
-  BookRead$ = new Subject<boolean | null>();
-  BookStatus$ = new Subject<StatusType | null>();
-  Books$: Observable<Book[]> = this.store.select('books');
+  BookRead$ = new BehaviorSubject<boolean | null>(null);
+  BookStatus$ = new BehaviorSubject<StatusType | null>(null);
+  Books$: Observable<Book[]>;
+  BooksCount$: Observable<BookCount>;
 
   markAsArchive(book: Book) {
     this.store.dispatch(new PostActions.UpdateBookStatus(book, StatusType.ARCHIVE));
@@ -65,6 +66,8 @@ export class AppComponent implements OnInit {
     this.Books$ = combineLatest(this.BookRead$, this.BookStatus$).pipe(switchMap(([read, status]) => {
       return this.store.pipe(select(selectBook(status, read)));
     }));
+    this.BooksCount$ = this.store.pipe(select(selectCount()));
   }
+
 
 }

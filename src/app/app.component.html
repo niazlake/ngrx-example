@@ -2,19 +2,16 @@
   <h2>Library</h2>
   <div class="row">
     <button (click)="getAll()">Все книги</button>
-    <button (click)="onlyArchive()">В архиве</button>
-    <button (click)="onlyRead()">Прочтено</button>
-    <button (click)="onlyUnRead()"> Не прочитано</button>
-    <button (click)="onlyFavorite()"> В изранное</button>
+    <button (click)="onlyArchive()">В архиве {{(BooksCount$|async)?.archive}}</button>
+    <button (click)="onlyRead()">Прочтено {{(BooksCount$|async)?.read}}</button>
+    <button (click)="onlyUnRead()"> Не прочитано {{(BooksCount$|async)?.unread}}</button>
+    <button (click)="onlyFavorite()"> В изранное {{(BooksCount$|async)?.favorite}}</button>
   </div>
   <div class="books">
     <ng-container *ngIf="Books$|async as books">
-      <div class="book" *ngFor="let book of books;">
+      <div class="book__item" *ngFor="let book of books;">
         <h2 class="book__header"> Название книги: {{book.title}}</h2>
-        <p class="book__isRead  book__read" *ngIf="book.read else unread">Прочитано</p>
-        <ng-template #unread>
-          <p class="book__isRead book__unread ">Не прочитано</p>
-        </ng-template>
+        <p class="book__isRead" [ngClass]="{'book__read': book.read, 'book_unread': !book.read}">{{book.read}}</p>
         <p class="book__status"> Статус книги: {{book.status}}</p>
         <div class="book__button_collection">
           <button (click)="markAsArchive(book)">

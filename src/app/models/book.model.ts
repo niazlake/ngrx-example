@@ -26,3 +26,10 @@ export interface BookReadChange {
   isRead: boolean;
   type: string;
 }
+
+export interface BookCount {
+  read: number;
+  unread: number;
+  archive: number;
+  favorite: number;
+}

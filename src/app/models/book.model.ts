@@ -32,4 +32,5 @@ export interface BookCount {
   unread: number;
   archive: number;
   favorite: number;
+  all: number;
 }

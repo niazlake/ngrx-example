@@ -1,33 +1,64 @@
-<div class="container">
-  <h2>Library</h2>
-  <div class="row">
-    <button (click)="getAll()">Все книги</button>
-    <button (click)="onlyArchive()">В архиве {{(BooksCount$|async)?.archive}}</button>
-    <button (click)="onlyRead()">Прочтено {{(BooksCount$|async)?.read}}</button>
-    <button (click)="onlyUnRead()"> Не прочитано {{(BooksCount$|async)?.unread}}</button>
-    <button (click)="onlyFavorite()"> В изранное {{(BooksCount$|async)?.favorite}}</button>
+<div class="book-page">
+  <div class="book-page__head">
+    <h2>BookHub</h2>
   </div>
-  <div class="books">
-    <ng-container *ngIf="Books$|async as books">
-      <div class="book__item" *ngFor="let book of books;">
-        <h2 class="book__header"> Название книги: {{book.title}}</h2>
-        <p class="book__isRead" [ngClass]="{'book__read': book.read, 'book_unread': !book.read}">{{book.read}}</p>
-        <p class="book__status"> Статус книги: {{book.status}}</p>
-        <div class="book__button_collection">
-          <button (click)="markAsArchive(book)">
-            В архив
-          </button>
-          <button (click)="markAsRead(book)">
-            Прочтено
-          </button>
-          <button (click)="markAsUnread(book)">
-            Не прочитано
-          </button>
-          <button (click)="markAsFavorite(book)">
-            В изранное
-          </button>
+  <div class="book-page__line">
+    <div class="book-menu">
+      <button class="book-button book-button_menu" (click)="getAll()">
+        {{Translations.all}} {{(BooksCount$|async)?.all}}</button>
+      <button class="book-button book-button_menu"
+              [ngClass]="{'book-button_menu_active': (BookStatus$|async) === StatusCheck.ARCHIVE}"
+              (click)="onlyArchive()">{{Translations.archive}} {{(BooksCount$|async)?.archive}}</button>
+      <button class="book-button book-button_menu"
+              [ngClass]="{'book-button_menu_active': (BookRead$|async) === true}"
+              (click)="onlyRead()">{{Translations.read}} {{(BooksCount$|async)?.read}}</button>
+      <button class="book-button book-button_menu"
+              [ngClass]="{'book-button_menu_active': (BookRead$|async)  === false}"
+              (click)="onlyUnRead()"> {{Translations.unread}} {{(BooksCount$|async)?.unread}}</button>
+      <button class="book-button book-button_menu"
+              [ngClass]="{'book-button_menu_active': (BookStatus$|async) === StatusCheck.FAVORITE}"
+              (click)="onlyFavorite()"> {{Translations.favorite}} {{(BooksCount$|async)?.favorite}}</button>
+    </div>
+  </div>
+  <div class="book-page__line">
+    <div class="books-main">
+      <ng-container *ngIf="Books$|async as books">
+        <div class="books-main__item" *ngFor="let book of books;">
+          <div class="books-main__header">
+            <h3 class="books-item-head"> {{Translations.nameOfBook}}: {{book.title}}</h3>
+          </div>
+          <div class="books-main__content">
+            <div class="books-main__status">
+              <p class="books-main__isRead" *ngIf="book.read else unread"> {{Translations.markAsRead}}</p>
+              <ng-template #unread>
+                <p class="books-main__isRead"> {{Translations.markAsUnread}}</p>
+              </ng-template>
+            </div>
+            <div class="books-main__status">
+              <span *ngIf="book.status === StatusCheck.ARCHIVE else favorite">
+                {{Translations.statusBook}}: {{Translations.markAsArchive}}
+              </span>
+              <ng-template #favorite>
+                <span>{{Translations.statusBook}} : {{Translations.markAsFavorite}}</span>
+              </ng-template>
+            </div>
+          </div>
+          <div class="books-main__buttons">
+            <button class="book_button book-main_button" (click)="markAsArchive(book)">
+              {{Translations.markAsArchive}}
+            </button>
+            <button class="book_button book-main_button" (click)="markAsRead(book)">
+              {{Translations.markAsRead}}
+            </button>
+            <button class="book_button book-main_button" (click)="markAsUnread(book)">
+              {{Translations.markAsUnread}}
+            </button>
+            <button class="book_button book-main_button" (click)="markAsFavorite(book)">
+              {{Translations.markAsFavorite}}
+            </button>
+          </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
   </div>
 </div>

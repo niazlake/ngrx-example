@@ -6,6 +6,8 @@ import * as PostActions from './actions/book.actions';
 import {switchMap} from 'rxjs/operators';
 import {BookState} from './store/app.store';
 import {selectBook, selectCount} from './selectors/status.selector';
+import {TranslateOfText} from './translation/translation';
+import {TranslationModel} from './models/translation.model';
 
 
 @Component({
@@ -23,6 +25,8 @@ export class AppComponent implements OnInit {
   BookStatus$ = new BehaviorSubject<StatusType | null>(null);
   Books$: Observable<Book[]>;
   BooksCount$: Observable<BookCount>;
+  StatusCheck = StatusType;
+  Translations: TranslationModel = TranslateOfText;
 
   markAsArchive(book: Book) {
     this.store.dispatch(new PostActions.UpdateBookStatus(book, StatusType.ARCHIVE));

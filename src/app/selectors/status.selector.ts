@@ -1,12 +1,12 @@
 import {createSelector} from '@ngrx/store';
-import {Book, StatusType} from '../models/book.model';
+import {Book, BookCount, StatusType} from '../models/book.model';
 import {BookState} from '../store/app.store';
 
 export const selectBooks = (state: BookState) => state.books;
 
 export const selectBook = (statusBook: StatusType | null, isRead: boolean | null) => createSelector(
   selectBooks,
-  (allBooks: Book[]) => {
+  (allBooks: Book[]): Book[] => {
     const filteredRead = (): Book[] => {
       if (isRead === null) {
         return allBooks;
@@ -31,12 +31,13 @@ export const selectBook = (statusBook: StatusType | null, isRead: boolean | null
 
 export const selectCount = () => createSelector(
   selectBooks,
-  (allBooks: Book[]) => {
+  (allBooks: Book[]): BookCount => {
     return {
       archive: allBooks.filter(book => book.status === StatusType.ARCHIVE).length,
       favorite: allBooks.filter(book => book.status === StatusType.FAVORITE).length,
       read: allBooks.filter(book => book.read === true).length,
-      unread: allBooks.filter(book => book.read === false).length
+      unread: allBooks.filter(book => book.read === false).length,
+      all: allBooks.length
     };
   }
 );

@@ -10,11 +10,6 @@ export enum StatusType {
   FAVORITE = 'Favorite'
 }
 
-export interface BookFilter {
-  status: StatusType | null;
-  read: boolean | null;
-}
-
 export interface BookStatusChange {
   payload: Book;
   status: StatusType | null;

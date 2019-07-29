@@ -10,17 +10,13 @@
 
 .book-page__line {
   width: 100%;
-  margin: auto 0;
+  margin: 0 auto;
   margin-top: 32px;
   display: flex;
 }
 
 .book-menu {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  display: table;
-  table-layout: fixed;
+  margin: 0 auto;
 }
 
 .book-button {
@@ -53,8 +49,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
-  margin: 0 16px;
-  width: 460px;
+  margin: 0 auto;
+  width: 320px;
 }
 
 .books-main__item {
@@ -66,7 +62,7 @@
 }
 
 .books-main__header {
-
+  width: 70%;
 }
 
 .book-main_button {

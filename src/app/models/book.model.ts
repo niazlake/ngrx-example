@@ -18,14 +18,14 @@ export interface BookStatusChange {
 
 export interface BookReadChange {
   payload: Book;
-  isRead: boolean;
+  read: boolean;
   type: string;
 }
 
 export interface BookCount {
-  read: number;
-  unread: number;
-  archive: number;
-  favorite: number;
-  all: number;
+  readCount: number;
+  unreadCount: number;
+  archiveCount: number;
+  favoriteCount: number;
+  allCount: number;
 }

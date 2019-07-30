@@ -4,10 +4,10 @@ import {Store, select} from '@ngrx/store';
 import {Book, BookCount, StatusType} from './models/book.model';
 import * as PostActions from './actions/book.actions';
 import {switchMap} from 'rxjs/operators';
-import {BookState} from './store/app.store';
 import {selectBook, selectCount} from './selectors/status.selector';
 import {TranslateOfText} from './translation/translation';
 import {TranslationModel} from './models/translation.model';
+import {BookState} from './reducers/book.reducer';
 
 
 @Component({

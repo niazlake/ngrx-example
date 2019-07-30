@@ -1,43 +1,43 @@
 import {createSelector} from '@ngrx/store';
 import {Book, BookCount, StatusType} from '../models/book.model';
-import {BookState} from '../store/app.store';
+import {BookState} from '../reducers/book.reducer';
 
 export const selectBooks = (state: BookState) => state.books;
 
-export const selectBook = (statusBook: StatusType | null, isRead: boolean | null) => createSelector(
+export const selectBook = (statusType: StatusType | null, haveRead: boolean | null) => createSelector(
   selectBooks,
   (allBooks: Book[]): Book[] => {
     const filteredRead = (): Book[] => {
-      if (isRead === null) {
+      if (haveRead === null) {
         return allBooks;
       } else {
         return allBooks.filter(book => {
-          return book.read === isRead;
+          return book.read === haveRead;
         });
       }
     };
     const filteredStatus = (): Book[] => {
-      if (statusBook === null) {
+      if (statusType === null) {
         return allBooks;
       } else {
         return allBooks.filter(book => {
-            return book.status === statusBook;
+            return book.status === statusType;
           }
         );
       }
     };
-    return filteredStatus().filter(bookStatus => filteredRead().includes(bookStatus));
+    return filteredStatus().filter(onlyBookStatus => filteredRead().includes(onlyBookStatus));
   });
 
 export const selectCount = () => createSelector(
   selectBooks,
   (allBooks: Book[]): BookCount => {
     return {
-      archive: allBooks.filter(book => book.status === StatusType.ARCHIVE).length,
-      favorite: allBooks.filter(book => book.status === StatusType.FAVORITE).length,
-      read: allBooks.filter(book => book.read === true).length,
-      unread: allBooks.filter(book => book.read === false).length,
-      all: allBooks.length
+      archiveCount: allBooks.filter(book => book.status === StatusType.ARCHIVE).length,
+      favoriteCount: allBooks.filter(book => book.status === StatusType.FAVORITE).length,
+      readCount: allBooks.filter(book => book.read === true).length,
+      unreadCount: allBooks.filter(book => book.read === false).length,
+      allCount: allBooks.length
     };
   }
 );

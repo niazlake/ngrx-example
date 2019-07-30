@@ -5,19 +5,19 @@
   <div class="book-page__line">
     <div class="book-menu">
       <button class="book-button book-button_menu" (click)="getAll()">
-        {{Translations.all}} {{(BooksCount$|async)?.all}}</button>
+        {{Translations.all}} {{(BooksCount$|async)?.allCount}}</button>
       <button class="book-button book-button_menu"
               [ngClass]="{'book-button_menu_active': (BookStatus$|async) === StatusCheck.ARCHIVE}"
-              (click)="onlyArchive()">{{Translations.archive}} {{(BooksCount$|async)?.archive}}</button>
+              (click)="onlyArchive()">{{Translations.archive}} {{(BooksCount$|async)?.archiveCount}}</button>
       <button class="book-button book-button_menu"
               [ngClass]="{'book-button_menu_active': (BookRead$|async) === true}"
-              (click)="onlyRead()">{{Translations.read}} {{(BooksCount$|async)?.read}}</button>
+              (click)="onlyRead()">{{Translations.read}} {{(BooksCount$|async)?.readCount}}</button>
       <button class="book-button book-button_menu"
               [ngClass]="{'book-button_menu_active': (BookRead$|async)  === false}"
-              (click)="onlyUnRead()"> {{Translations.unread}} {{(BooksCount$|async)?.unread}}</button>
+              (click)="onlyUnRead()"> {{Translations.unread}} {{(BooksCount$|async)?.unreadCount}}</button>
       <button class="book-button book-button_menu"
               [ngClass]="{'book-button_menu_active': (BookStatus$|async) === StatusCheck.FAVORITE}"
-              (click)="onlyFavorite()"> {{Translations.favorite}} {{(BooksCount$|async)?.favorite}}</button>
+              (click)="onlyFavorite()"> {{Translations.favorite}} {{(BooksCount$|async)?.favoriteCount}}</button>
     </div>
   </div>
   <div class="book-page__line">

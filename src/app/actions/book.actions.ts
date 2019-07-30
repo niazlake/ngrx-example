@@ -38,14 +38,14 @@ export class UpdateBookStatusFail implements Action {
 export class UpdateBookRead implements Action {
   readonly type = UPDATE_READ;
 
-  constructor(public payload: Book, public isRead: boolean) {
+  constructor(public payload: Book, public read: boolean) {
   }
 }
 
 export class UpdateBookReadSuccess implements Action {
   readonly type = UPDATE_READ_SUCCESS;
 
-  constructor(public payload: Book, public isRead: boolean) {
+  constructor(public payload: Book, public read: boolean) {
   }
 }
 

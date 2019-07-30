@@ -28,7 +28,7 @@ export class BookEffect {
   updateBookStatus$ = this.actions$.pipe(
     ofType(bookActions.UPDATE_STATUS),
     switchMap((action: BookStatusChange) => {
-        return this.api.updateBook$(action.payload.id, action.payload).pipe(
+        return this.api.updateBook$(action.payload.id, {...action.payload, status: action.status}).pipe(
           map((book: Book) => new bookActions.UpdateBookStatusSuccess(book, action.status)),
           catchError(err => of(new bookActions.UpdateBookStatusFail(err))));
       }
@@ -39,8 +39,8 @@ export class BookEffect {
   updateBookRead$ = this.actions$.pipe(
     ofType(bookActions.UPDATE_READ),
     switchMap((action: BookReadChange) => {
-        return this.api.updateBook$(action.payload.id, action.payload).pipe(
-          map((book: Book) => new bookActions.UpdateBookReadSuccess(book, action.isRead)),
+        return this.api.updateBook$(action.payload.id, {...action.payload, read: action.read}).pipe(
+          map((book: Book) => new bookActions.UpdateBookReadSuccess(book, action.read)),
           catchError(err => of(new bookActions.UpdateBookReadFail(err))));
       }
     )

@@ -1,7 +1,7 @@
 export interface Book {
   title: string;
   read: boolean;
-  status: StatusType | null;
+  status: StatusType;
   id: number;
 }
 
@@ -12,7 +12,7 @@ export enum StatusType {
 
 export interface BookStatusChange {
   payload: Book;
-  status: StatusType | null;
+  status: StatusType;
   type: string;
 }
 
